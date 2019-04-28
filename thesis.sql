@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2019 at 08:40 PM
+-- Generation Time: Apr 28, 2019 at 08:08 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -144,6 +144,13 @@ CREATE TABLE `gantt_chart_resource` (
   `project_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `gantt_chart_resource`
+--
+
+INSERT INTO `gantt_chart_resource` (`id`, `quantity`, `duration`, `rate`, `total`, `gantt_chart_id`, `resource_id`, `project_id`) VALUES
+(1, 1, 1, '1', '1', 20, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -185,9 +192,9 @@ CREATE TABLE `resources` (
 --
 
 INSERT INTO `resources` (`id`, `name`, `category`) VALUES
-(1, 'Sample1dsds', 'E'),
-(2, 'ddsd', 'E'),
-(3, 'ddsd', 'E');
+(1, 'Engineer', 'E'),
+(2, 'Owner', 'E'),
+(3, 'Checker', 'E');
 
 --
 -- Indexes for dumped tables
@@ -264,7 +271,7 @@ ALTER TABLE `gantt_chart`
 -- AUTO_INCREMENT for table `gantt_chart_resource`
 --
 ALTER TABLE `gantt_chart_resource`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `projects`
