@@ -63,10 +63,10 @@
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <div id="activity_header" class="page-header"></div>
-                <h3>Resources</h3>
+                <h3>Equipment</h3>
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Add Resource</button>
+                        <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Add Equipment</button>
                     </div>
                     <div class="col-md-10">
                         <div id="prompt"></div>
@@ -77,7 +77,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="text-center">Resource</th>
+                                <th class="text-center">Equipment</th>
                                 <th class="text-center">Type</th>
                                 <th class="text-center">Quantity</th>
                                 <th class="text-center">Duration</th>
@@ -103,24 +103,27 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Resource</h4>
+                    <h4 class="modal-title">Add Equipment</h4>
                 </div>
                 <div class="modal-body" id="content">
                     <form id="add_resource" class="form-horizontal" role="form">
                         <div class="form-group">
                             <label class="control-label col-md-2" for="categoryform">Category</label>
                             <select id="categoryform" class="form-control" style="width:450px; margin-left: 164px;">
-                        <option value="M">Manpower</option>
                         <option value="E">Equipment</option>
-                        <option value="others">Others</option>
                     </select>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="selectform">Resource Name</label>
+                            <label class="control-label col-md-2" for="selectform">Equipment Name</label>
                             <div class="col-md-10">
                                 <input type="text" class="form-control" id="resource_name" style="display:none;">
                             </div>
+
+
                             <select id="selectform" class="form-control" style="width:450px; margin-left: 164px;"></select>
+
+                            
+                             
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-2" for="quantity">Quantity</label>
@@ -163,12 +166,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Resource</h4>
+                    <h4 class="modal-title">Edit Manpower</h4>
                 </div>
                 <div class="modal-body" id="content">
                     <form id="edit_resource" class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="selectform">Resource Name</label>
+                            <label class="control-label col-md-2" for="selectform">Role</label>
                             <select id="edit-selectform" class="form-control" style="width:450px; margin-left: 164px;"></select>
                         </div>
                         <div class="form-group">

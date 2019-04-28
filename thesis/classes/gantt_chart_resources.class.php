@@ -13,6 +13,10 @@
 		{
 
 			//Check if $gantt_chart_id exist on gantt_chart table
+
+			
+			 
+
 			$sql1 = "SELECT COUNT(id) FROM gantt_chart WHERE id='$gantt_chart_id';";
 			$result1 = $this->getSingleSQLStatement($sql1);
 
@@ -31,9 +35,9 @@
 				array_push($errors, 'gantt_chart_id does not exist on gantt_chart table');
 			} 
 
-			if (in_array(0, $result2)) {
-				array_push($errors, 'resource_id does not exist on resources table');
-			}
+			// if (in_array(0, $result2)) {
+			// 	array_push($errors, 'resource_id does not exist on resources table');
+			// }
 
 			if (!is_int($quantity)) {
 				array_push($errors, 'quantity is not set as integer');
@@ -69,7 +73,7 @@
 			} else {
 
 				$sql3 = "
-					INSERT INTO gantt_chart_resources (gantt_chart_id, resource_id, quantity, duration, rate, total) 
+					INSERT INTO gantt_chart_resource (gantt_chart_id, resource_id, quantity, duration, rate, total) 
 					VALUES
 					  ('$gantt_chart_id', '$resource_id', '$quantity', '$duration', '$rate', '$total');
 				";
@@ -100,12 +104,12 @@
 				return ['errors' => $errors];
 			} else {
 
-				$sql2 = "SELECT  gantt_chart_resources.`id`, gantt_chart_resources.`quantity`, 
-						gantt_chart_resources.`duration`, gantt_chart_resources.`rate`, 
-						gantt_chart_resources.`total`, resources.`name`, resources.`category`
-						FROM gantt_chart_resources  
-						INNER JOIN gantt_chart ON gantt_chart.id = gantt_chart_resources.gantt_chart_id
-						INNER JOIN resources ON resources.id = gantt_chart_resources.resource_id 
+				$sql2 = "SELECT  gantt_chart_resource.`id`, gantt_chart_resource.`quantity`, 
+						gantt_chart_resource.`duration`, gantt_chart_resource.`rate`, 
+						gantt_chart_resource.`total`, resources.`name`, resources.`category`
+						FROM gantt_chart_resource  
+						INNER JOIN gantt_chart ON gantt_chart.id = gantt_chart_resource.gantt_chart_id
+						INNER JOIN resources ON resources.id = gantt_chart_resource.resource_id 
 						WHERE gantt_chart_id = '$gantt_chart_id'";
 
 				// We are now able to access this method because we extended the "Database" class.
@@ -142,7 +146,7 @@
 					  b.`total` AS resource_cost 
 					FROM
 					  gantt_chart a 
-					  INNER JOIN gantt_chart_resources b 
+					  INNER JOIN gantt_chart_resource b 
 					    ON a.`id` = b.`gantt_chart_id` 
 					  INNER JOIN resources c 
 					    ON b.`resource_id` = c.`id` 
@@ -167,13 +171,13 @@
 		
 		function getSpecificActivityResources($id)
 		{
-			$sql1 = "SELECT COUNT(id) FROM gantt_chart_resources WHERE id='$id';";
+			$sql1 = "SELECT COUNT(id) FROM gantt_chart_resource WHERE id='$id';";
 			$result1 = $this->getSingleSQLStatement($sql1);
 			
 			$errors = [];
 			
 			if (in_array(0, $result1)) {
-				array_push($errors, 'id does not exist on gantt_chart_resources table');
+				array_push($errors, 'id does not exist on gantt_chart_resource table');
 			} 
 
 			if ($id == '') {
@@ -183,7 +187,7 @@
 			if (!empty($errors)) {
 				return ['errors' => $errors];
 			} else {
-				$sql = "SELECT * FROM gantt_chart_resources WHERE id = '$id'";
+				$sql = "SELECT * FROM gantt_chart_resource WHERE id = '$id'";
 
 				// We are now able to access this method because we extended the "Database" class.
 				$result = $this->getSingleSQLStatement($sql);
@@ -247,7 +251,7 @@
 				return ['errors' => $errors];
 			} else {
 
-				$sql = "UPDATE gantt_chart_resources SET gantt_chart_id='$gantt_chart_id', resource_id='$resource_id', quantity='$quantity',rate='$rate', duration='$duration', total='$total' 
+				$sql = "UPDATE gantt_chart_resource SET gantt_chart_id='$gantt_chart_id', resource_id='$resource_id', quantity='$quantity',rate='$rate', duration='$duration', total='$total' 
 						WHERE id='$id'";
 
 				// We are now able to access this method because we extended the "Database" class.
@@ -261,13 +265,13 @@
 		{
 			$errors = [];
 
-			$sql1 = "SELECT COUNT(id) FROM gantt_chart_resources WHERE id='$id';";
+			$sql1 = "SELECT COUNT(id) FROM gantt_chart_resource WHERE id='$id';";
 			$result1 = $this->getSingleSQLStatement($sql1);
 
 			$errors = [];
 
 			if (in_array(0, $result1)) {
-				array_push($errors, 'id does not exist on gantt_chart_resources table');
+				array_push($errors, 'id does not exist on gantt_chart_resource table');
 			} 
 
 			if ($id == '') {
@@ -277,7 +281,7 @@
 			if (!empty($errors)) {
 				return ['errors' => $errors];
 			} else {
-				$sql = "DELETE FROM gantt_chart_resources WHERE id = '$id'";
+				$sql = "DELETE FROM gantt_chart_resource WHERE id = '$id'";
 
 				// We are now able to access this method because we extended the "Database" class.
 				$this->executeSQL($sql);
