@@ -20,6 +20,16 @@
 				$result = $this->getSQLResult($sql);
 
 				return $result;			
+		}
+		function get_equpement()
+		{
+			
+				$sql = "SELECT * FROM equipment";
+			
+				// We are now able to access this method because we extended the "Database" class.
+				$result = $this->getSQLResult($sql);
+
+				return $result;			
 		}	
 
 		function getSpecificResource($id)

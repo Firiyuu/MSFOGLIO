@@ -68,6 +68,9 @@
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Add Equipment</button>
                     </div>
+                    <div class="col-md-2">
+                        <a href="gnatt_chart.php"><button type="submit" class="btn btn-success">See Gnatt Chart</button></a>
+                    </div>
                     <div class="col-md-10">
                         <div id="prompt"></div>
                     </div>
@@ -237,6 +240,21 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-ui.js"></script>
     <script>
+        $(document).ready(function() {
+                $.post('/thesis/api.php', {
+                    "api_command": "get_equpement"
+                }, function(data, status) {
+
+                    var Resources = JSON.parse(JSON.parse(data)['success']);
+                    var resources_options = "";
+
+                    for (var i in Resources) {
+                        resources_options += "<option value=" + Resources[i].id + ">" + Resources[i].name + " </option>";
+                    }
+                    $('#selectform').html(resources_options);
+                    $('#edit-selectform').html(resources_options);
+                })
+        });
         function getUrlVars() {
             var vars = [],
                 hash;
@@ -254,8 +272,8 @@
         var projectId = getUrlVars()['project_id'];
         var projectName = getUrlVars()['project_name'];
         var header = "";
-        var activityName2 = activityName.replace(/%20/g, " ")
-        var projectName2 = projectName.replace(/%20/g, " ")
+        var activityName2 = activityName.replace(/%20/g, " ");
+        var projectName2 = projectName.replace(/%20/g, " ");
 
         header += "<h2>" + projectName2 + ": " + activityName2 + "</h2>";
 
@@ -611,7 +629,7 @@
                             for (var i in Resources) {
                                 resources_html += "<tr>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].name + "</td>";
-                                resources_html += "<td class=\"text-center\"><p style=\"text-transform: uppercase;\">" + Resources[i].category + "</p></td>";
+                                resources_html += "<td class=\"text-center\"><p style=\"text-transform: uppercase;\">E</p></td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].quantity + "</td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].duration + "</td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].rate + "</td>";

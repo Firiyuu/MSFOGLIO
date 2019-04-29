@@ -173,6 +173,31 @@
 
 				return 'Project successfully edited.';	
 			}
+		}
+		function do_login($username, $password)
+		{	
+			$errors = [];
+
+			if ($username == '') {
+				array_push($errors, 'The `username` field must not be empty.');
+			}
+	
+			if ($password == '') {
+				array_push($errors, 'The `password` field must not be empty.');
+			}
+			$mdPass = md5($password);
+			$sql = "SELECT COUNT(id) as total FROM user WHERE username='$username' AND password='$mdPass'";
+			$result = $this->getSQLResult($sql);
+			// echo '<pre>';
+			// print_r($result);exit;
+			if($result[0]['total']<=0){
+				array_push($errors, 'Invalid Login Credentials.');
+			}
+			if (!empty($errors)) {
+				return ['errors' => $errors];
+			} else {
+				return 'Login successful.';	
+			}
 		}		
 	}
 ?>

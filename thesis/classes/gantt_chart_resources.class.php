@@ -106,10 +106,10 @@
 
 				$sql2 = "SELECT  gantt_chart_resource.`id`, gantt_chart_resource.`quantity`, 
 						gantt_chart_resource.`duration`, gantt_chart_resource.`rate`, 
-						gantt_chart_resource.`total`, resources.`name`, resources.`category`
+						gantt_chart_resource.`total`, equipment.`name`
 						FROM gantt_chart_resource  
 						INNER JOIN gantt_chart ON gantt_chart.id = gantt_chart_resource.gantt_chart_id
-						INNER JOIN resources ON resources.id = gantt_chart_resource.resource_id 
+						INNER JOIN equipment ON equipment.id = gantt_chart_resource.resource_id 
 						WHERE gantt_chart_id = '$gantt_chart_id'";
 
 				// We are now able to access this method because we extended the "Database" class.

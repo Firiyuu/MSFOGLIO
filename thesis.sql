@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2019 at 08:08 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: Apr 29, 2019 at 06:31 PM
+-- Server version: 10.1.13-MariaDB
+-- PHP Version: 5.6.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -87,6 +85,26 @@ INSERT INTO `cashflow` (`id`, `description`, `date_added`, `amount`, `type`, `tr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `equipment`
+--
+
+CREATE TABLE `equipment` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `equipment`
+--
+
+INSERT INTO `equipment` (`id`, `name`) VALUES
+(1, 'Equipment 1'),
+(2, 'Equipment 2'),
+(3, 'Equipment 3');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `gantt_chart`
 --
 
@@ -149,7 +167,9 @@ CREATE TABLE `gantt_chart_resource` (
 --
 
 INSERT INTO `gantt_chart_resource` (`id`, `quantity`, `duration`, `rate`, `total`, `gantt_chart_id`, `resource_id`, `project_id`) VALUES
-(1, 1, 1, '1', '1', 20, 1, NULL);
+(1, 1, 1, '20', '1', 20, 1, NULL),
+(2, 1, 1, '10', '1', 20, 2, NULL),
+(3, 1, 1, '30', '1', 20, 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -196,6 +216,25 @@ INSERT INTO `resources` (`id`, `name`, `category`) VALUES
 (2, 'Owner', 'E'),
 (3, 'Checker', 'E');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `username` varchar(250) NOT NULL,
+  `password` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`) VALUES
+(1, 'user', '4f5cec75c744bd39b5126debbb7cffb8');
+
 --
 -- Indexes for dumped tables
 --
@@ -213,6 +252,12 @@ ALTER TABLE `bill_of_materials`
 ALTER TABLE `cashflow`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `equipment`
+--
+ALTER TABLE `equipment`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `gantt_chart`
@@ -246,6 +291,12 @@ ALTER TABLE `resources`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -254,37 +305,41 @@ ALTER TABLE `resources`
 --
 ALTER TABLE `bill_of_materials`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT for table `cashflow`
 --
 ALTER TABLE `cashflow`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+--
+-- AUTO_INCREMENT for table `equipment`
+--
+ALTER TABLE `equipment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `gantt_chart`
 --
 ALTER TABLE `gantt_chart`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
 --
 -- AUTO_INCREMENT for table `gantt_chart_resource`
 --
 ALTER TABLE `gantt_chart_resource`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
 --
 -- AUTO_INCREMENT for table `resources`
 --
 ALTER TABLE `resources`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
@@ -296,7 +351,6 @@ ALTER TABLE `gantt_chart_resource`
   ADD CONSTRAINT `gantt_chart_resource_ibfk_1` FOREIGN KEY (`gantt_chart_id`) REFERENCES `gantt_chart` (`id`),
   ADD CONSTRAINT `gantt_chart_resource_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `resources` (`id`),
   ADD CONSTRAINT `gantt_chart_resource_ibfk_3` FOREIGN KEY (`project_id`) REFERENCES `resources` (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

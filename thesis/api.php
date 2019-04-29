@@ -40,6 +40,9 @@
 	// API Command match list.
 	if ($api_command === 'get_resources') {
 		$result = $resources->getResources(getPOSTValue('category'));
+	}
+	else if($api_command === 'get_equpement') {
+		$result = $resources->get_equpement();
 	} else if ($api_command === 'add_resource') {
 		$result = $resources->addResource(getPOSTValue('name'), getPOSTValue('category'), getPOSTValue('gantt_chart_id'), getPOSTValue('resource_id'), getPOSTValue('quantity'), getPOSTValue('duration'), getPOSTValue('rate'));
 	} else if ($api_command === 'delete_resource') {
@@ -116,6 +119,9 @@
 		$result = $gantt_chart_resources->getDateResources(getPOSTValue('date'));
 	} else if ($api_command === 'get_years') {
 		$result = $cashflow->getYears(getPOSTValue('project_id'));
+
+	} else if ($api_command === 'do_login') {
+		$result = $projects->do_login(getPOSTValue('username'), getPOSTValue('password'));
 	}		
 		// var_dump($result);
 		// die;
