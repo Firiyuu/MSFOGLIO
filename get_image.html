@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>MSFoglio</title>
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <style type="text/css">
+        .filedrag-droparea
+        {
+            display: none;
+            font-weight: bold;
+            text-align: center;
+            padding: 1em 0;
+            margin: 1em 0;
+            color: #555;
+            border: 2px dashed #555;
+            border-radius: 7px;
+            cursor: default;
+        }
+
+        .filedrag-droparea.hover
+        {
+            color: #f00;
+            border-color: #f00;
+            border-style: solid;
+            box-shadow: inset 0 3px 4px #888;
+        }
+
+        .filedrag-preview
+        {
+            max-width: 100%;
+        }
+
+        .filedrag-progress p
+        {
+            display: block;
+            width: 240px;
+            padding: 2px 5px;
+            margin: 2px 0;
+            border: 1px inset #446;
+            border-radius: 5px;
+            background: #eee url("/thesis/img/progress.png") 100% 0 repeat-y;
+        }
+
+        .filedrag-progress p.success
+        {
+            background: #0c0 none 0 0 no-repeat;
+        }
+
+        .filedrag-progress p.failed
+        {
+            background: #c00 none 0 0 no-repeat;
+        }
+    </style>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+
+</head>
+
+<body style="background: hsl(0, 0%, 95%)">
+    <input type="hidden" name="" id="to-edit" value="">
+    <input type="hidden" name="" id="to-delete" value="">
+    <input type="hidden" name="" id="to-add" value="">
+    <input type="hidden" name="" id="category" value="">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="background: linear-gradient(to right,#5540d9 0%, #ee7fff 100%)">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                <a class="navbar-brand" href="get_projects.html" style="color: #ffffff">MSFoglio</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="get_projects.html" style="color: #ffffff">Back</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row"></div><br/>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Upload Image</button>
+            </div>
+            <div class="col-md-2" id="toResources">
+            </div>
+            <div class="col-md-10">
+                <div id="prompt"></div>
+            </div>
+        </div>
+        <div class="row" id="imagelist"></div>
+
+        <!--Add Modal -->
+        <div id="add-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!--Add Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Upload Image</h4>
+                    </div>
+                    <div class="modal-body" id="content1">
+                        <form id="uploadForm" class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="activity"></label>
+                                <div class="col-md-10">
+                                    <div class="filedrag" style="width: 500px;">
+                                        <label class="filedrag-filename"></label>
+                                        <img class="filedrag-preview" src="/thesis/img/placeholder.gif">
+                                        <div>&nbsp;</div>
+                                        <div class="filedrag-droparea">drop image (or click)</div>
+                                        <div class="filedrag-progress"></div>
+                                        <input type="file" class="filedrag-input" id="file" name="file"><br/>
+                                        <input type="text" class="form-control" id="content" name="content" placeholder="content">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <input type="submit" class="btn btn-default" id="submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/highcharts.js"></script>
+    <script src="js/exporting.js"></script>
+    <script src="js/export-data.js"></script>
+
+    <script>
+        var projectId = 0;
+
+        $(document).ready(function () {
+            showGraph();
+        });
+
+
+        $("#uploadForm").on('submit',(function(e) {
+            e.preventDefault();  //If this method is called, the default action of the event will not be 							triggered.
+            $.ajax({
+                url: "upload.class.php",
+                type: "POST",
+                data:  new FormData(this),
+                contentType: false,     //when we send json file we write contentType: 'application/json'
+                cache: false,
+                processData:false,
+                success: function(imagedata)
+                {
+                    var image_list = "";
+                    var loop = 0;
+                    for (var i in imagedata) {
+                        if (loop % 4 === 0){
+                            image_list += "<div class='row'></div>";
+                            loop = 0;
+                        }
+                        image_list += "<div class='col-md-2'><img style='width: 300px; height: 300px;' src='" + imagedata[i].imgPath + "'><span>" + imagedata[i].content + "</span></div><div class='col-md-1'></div>";
+                        loop += 1;
+                    }
+
+                    $('#imagelist').html(image_list);
+                    $('#add-modal').modal('hide');
+                },
+                error: function()
+                {
+                }
+            });
+        }));
+
+
+        function showGraph()
+        {
+            {
+                $.post('/thesis/api.php', {
+                        "api_command": "get_project_chart",
+                        "project_id": projectId
+                    },
+                    function (chartdata, status)
+                    {
+                        console.log(chartdata);
+                        var result_data = JSON.parse(JSON.parse(chartdata)['success']);
+                        var imagedata = result_data[2];
+
+                        var image_list = "";
+                        var loop = 0;
+                        for (i in imagedata) {
+                            if (loop % 4 === 0){
+                                image_list += "<div class='row'></div>";
+                                loop = 0;
+                            }
+                            image_list += "<div class='col-md-2'><img style='width: 300px; height: 300px;' src='" + imagedata[i].imgPath + "'><span>" + imagedata[i].content + "</span></div><div class='col-md-1'></div>";
+                            loop += 1;
+                        }
+
+                        $('#imagelist').html(image_list);
+                    });
+            }
+        }
+    </script>
+
+    </body>
+
+</html>
