@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>MSFoglio</title>
+    <title>PMAid</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,15 +23,12 @@
 
 </head>
 
-<body style="background: hsl(0, 0%, 95%)">
+<body>
     <input type="hidden" name="" id="to-edit" value="">
     <input type="hidden" name="" id="to-delete" value="">
     <input type="hidden" name="" id="to-add" value="">
-    <input type="hidden" name="" id="to-pay" value="">
-    <input type="hidden" name="" id="to-pay-value" value="">
-    <input type="hidden" name="" id="to-pay-item" value="">
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid" style="background: linear-gradient(to right,#5540d9 0%, #ee7fff 100%)">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -39,14 +36,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-                <a class="navbar-brand" href="get_projects.html" style="color: #ffffff">MSFoglio</a>
+                <a class="navbar-brand" href="#">PMAid</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li id="toActivity"></li>
-                    <li id="toMonitor"></li>
-                    <li class="active" id="toBill"></li>
+                    <li><a href="get_projects.html">Projects</a></li>
+                    <li><a href="get_resources.html">Resources</a></li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -56,44 +53,44 @@
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
                     <li id="toActivity"></li>
-                    <li class="active" id="toBill"></li>
+                    <li class="active" id="toCashflow"></li>
+                    <li id="toBill"></li>
                     <li id="toReports"></li>
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div id="project_header" class="page-header"></div>
+                <div id="project_header" class="page-header">
+                    <h2>Cashflow</h2>
+                </div>
+
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Add Bill of Material</button>
+                        <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Transact</button>
                     </div>
                     <div class="col-md-10">
                         <div id="prompt"></div>
                     </div>
                 </div>
 
-                <div id="total"></div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="text-center">Item</th>
+                                <th class="text-center">Transaction Type</th>
+                                <th class="text-center">Amount</th>
                                 <th class="text-center">Description</th>
-                                <th class="text-center">Date In</th>
-                                <th class="text-center">Quantity</th>
-                                <th class="text-center">Unit</th>
-                                <th class="text-center">Cost</th>
-                                <th class="text-center">Total</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Date Added</th>
+                                <th class="text-center">Transaction Date</th>
+                               <!--  <th class="text-center">Action</th> -->
                             </tr>
                         </thead>
-                        <tbody id="billofmaterials-table-contents">
+                        <tbody id="cashflow-table-contents">
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
     <!--Add Modal -->
     <div id="add-modal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
@@ -102,70 +99,37 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Bill</h4>
+                    <h4 class="modal-title">Add Cashflow</h4>
                 </div>
                 <div class="modal-body" id="content">
-                    <form id="add_bill" class="form-horizontal" role="form">
+                    <form id="add_cashflow" class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="item">Item</label>
+                            <label class="control-label col-md-2" for="category">Cashflow</label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" id="item">
-
+                                <select id="add-selectform" class="form-control">
+                        <option value="in">CASH IN</option>
+                        <option value="out">CASH OUT</option>    
+                    </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="description">Description</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="description">
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="quantity">Quantity</label>
-                            <div class="col-md-10">
-                                <input type="number" class="form-control" id="quantity">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="unit">Unit</label>
-                            <div class="col-md-10">
-                                <select  class="form-control" id="unit">
-                                    <option value="kg">kg</option>
-                                    <option value="m3">m<sup>3</sup></option>
-                                    <option value="m2">m<sup>2</sup></option>
-                                    <option value="pc">pc(s)</option>
-                                    <option value="m">m</option>
-                                    <option value="sheet">sheet</option>
-                                    <option value="length">length</option>
-                                    <option value="bag">bag(s)</option>
-                                    <option value="gal">gal(s)</option>
-                                    <option value="dozen">dozen(s)</option>
-                                    <option value="lot">lot(s)</option>
-                                    <option value="quarter">quarter(s)</option>
-                                    <option value="pint">pint(s)</option>
-                                    <option value="board ft">boart ft(s)</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-
-
                         <div class="form-group">
                             <label class="control-label col-md-2" for="amount">Amount</label>
                             <div class="col-md-10">
                                 <input type="number" class="form-control" id="amount">
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                    <label class="control-label col-md-2" for="total">Total</label>
-                    <div class="col-md-10">
-                    <input type="text" class="form-control" id="total">
-                    </div>
-                </div> -->
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="description">Description</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="transaction_date">Transaction Date</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="transaction_date">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" class="btn btn-default" id="submit">
@@ -189,72 +153,40 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Bill</h4>
+                    <h4 class="modal-title">Edit Cashflow</h4>
                 </div>
-                <div class="modal-body" id="content1">
-                    <form id="edit_bill_of_material" class="form-horizontal" role="form">
+                <div class="modal-body" id="content">
+                    <form id="edit_cashflow" class="form-horizontal" role="form">
                         <div class="form-group">
-
-                            <label class="control-label col-md-2" for="edit-item">Item</label>
+                            <label class="control-label col-md-2" for="category">Cashflow</label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" id="edit-item">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-
-                            <label class="control-label col-md-2" for="edit-description">Description</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="edit-description">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="edit-quantity">Quantity</label>
-                            <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-quantity">
-                            </div>
-                        </div>
-
-
-                                                <div class="form-group">
-                            <label class="control-label col-md-2" for="edit-unit">Unit</label>
-                            <div class="col-md-10">
-                                <select  class="form-control" id="edit-unit">
-                                    <option value="kg">kg</option>
-                                    <option value="m3">m<sup>3</sup></option>
-                                    <option value="m2">m<sup>2</sup></option>
-                                    <option value="pc">pc(s)</option>
-                                    <option value="m">m</option>
-                                    <option value="sheet">sheet</option>
-                                    <option value="length">length</option>
-                                    <option value="bag">bag(s)</option>
-                                    <option value="gal">gal(s)</option>
-                                    <option value="dozen">dozen(s)</option>
-                                    <option value="lot">lot(s)</option>
-                                    <option value="quarter">quarter(s)</option>
-                                    <option value="pint">pint(s)</option>
-                                    <option value="board ft">boart ft(s)</option>
-
-                                </select>
+                                <select id="edit_selectform" class="form-control">
+                        <option value="in">CASH IN</option>
+                        <option value="out">CASH OUT</option>    
+                    </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="edit-amount">Amount</label>
+                            <label class="control-label col-md-2" for="edit_amount">Amount</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-amount">
+                                <input type="number" class="form-control" id="edit_amount">
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                    <label class="control-label col-md-2" for="total">Total</label>
-                    <div class="col-md-10">
-                    <input type="text" class="form-control" id="total">
-                    </div>
-                </div> -->
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="edit_description">Description</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="edit_description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="edit_transaction_date">Transaction Date</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="edit_transaction_date">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <input type="submit" class="btn btn-default" id="submit1">
+                                <input type="submit" class="btn btn-default" id="submit">
                             </div>
                         </div>
                     </form>
@@ -275,40 +207,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Bill</h4>
+                    <h4 class="modal-title">Delete Cashflow</h4>
                 </div>
                 <div class="modal-body">
                     Are you sure?
                 </div>
                 <div class="modal-footer">
-                    <form id="delete_bill" class="form-inline" role="form">
+                    <form id="delete_transaction" class="form-inline" role="form">
                         <button type="submit" data-dismiss="modal" class="btn btn-primary" id="delete">Delete</button>
                         <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!--Pay Modal -->
-    <div id="pay-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!--Pay Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Pay Bill</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure?
-                </div>
-                <div class="modal-footer">
-                    <form id="pay_bill" class="form-inline" role="form">
-                        <button type="submit" data-dismiss="modal" class="btn btn-primary" id="paybill">Pay</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-defaul">Cancel</button>
                     </form>
                 </div>
             </div>
@@ -339,9 +246,9 @@
         var projectId = getUrlVars()['project_id'];
         var projectName = getUrlVars()['project_name'];
         var header = "";
-        var projectName2 = projectName.replace(/%20/g, " ");
+        var projectName2 = projectName.replace(/%20/g, " ")
 
-        header += "<h2>" + projectName2 + "<small> Bill of Materials</small></h2>";
+        header += "<h2>" + projectName2 + "<small> Cashflow</small></h2>";
 
         $('#project_header').html(header);
 
@@ -351,36 +258,41 @@
                 $(this).find('form')[0].reset();
             });
 
-
             // Set navbar
             var activity_html = "";
             var cashflow_html = "";
             var resources_html = "";
             var bill_html = "";
             var reports_html = "";
-            var monitor_html = "";
-            var equipment_resources_html = "";
 
-
-
-            activity_html += "<a href=get_activity.html?project_id=" + projectId + "&project_name=" + projectName + ">Monitoring</a>";
+            activity_html += "<a href=get_activity.html?project_id=" + projectId + "&project_name=" + projectName + ">Gantt Chart</a>";
             cashflow_html += "<a href=get_cashflow.html?project_id=" + projectId + "&project_name=" + projectName + ">Cashflow</a>";
-            monitor_html += "<a href=get_monitor.html?project_id=" + projectId + "&project_name=" + projectName + ">Scheduling</a>";
-            equipment_resources_html += "";
             bill_html += "<a href=get_bill_of_materials.html?project_id=" + projectId + "&project_name=" + projectName + ">Bill of Materials</a>";
+            reports_html += "<a href=get_reports.html?project_id=" + projectId + "&project_name=" + projectName + ">Reports</a>";
 
             $('#toCashflow').html(cashflow_html);
             $('#toActivity').html(activity_html);
             $('#toResources').html(resources_html);
             $('#toBill').html(bill_html);
             $('#toReports').html(reports_html);
-            $('#toMonitor').html(monitor_html);
-            $('#toResources').html(equipment_resources_html);
 
+
+            //funcitons
+            $("#date_added").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#transaction_date").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#edit_date_added").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#edit_transaction_date").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
             $("#delete").click(function(event) {
-                event.preventDefault();
                 $.post('/thesis/api.php', {
-                        "api_command": "delete_bill_of_material",
+                        "api_command": "delete_transaction",
                         "id": $('#to-delete').val()
                     },
                     function(data, status) {
@@ -417,78 +329,27 @@
                             $('#delete-modal').modal('hide');
                         }
                     }).done(function() {
-                    loadBillofMaterials();
+                    loadCashflow();
                 });
             });
-
-
-
-            $("#paybill").click(function(event) {
+            $("#edit_cashflow").submit(function(event) {
                 event.preventDefault();
+                var category = $('#edit_selectform').val();
+                var amount = $('#edit_amount').val();
+                var description = $('#edit_description').val();
+                var date_added = $('#edit_date_added').val() + " 00:00:00";
+                var transaction_date = $('#edit_transaction_date').val() + " 00:00:00";
+
                 $.post('/thesis/api.php', {
-                        "api_command": "pay_bill",
-                        "amount": $('#to-pay-value').val(),
-                        "project_id": projectId,
-                        "billofmaterials_id": $('#to-pay').val(),
-                        "description": $('#to-pay-item').val()
-                    },
-                    function(data, status) {
-                        if (typeof JSON.parse(data)['errors'] !== "undefined") {
-
-                            var error = JSON.parse(data)['errors'];
-                            var prompt_html = "";
-
-                            for (var i in error) {
-                                prompt_html += "<div id='prompt' class='alert alert-danger'>"
-                                prompt_html += "<strong>" + error[i] + "</strong>";
-                                prompt_html += "</div>"
-
-                                $('#prompt').fadeOut(250, function() {
-                                    $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");;
-                                });
-
-                                $('#delete-modal').modal('hide');
-                            }
-
-                        } else {
-
-                            var success = JSON.parse(data)['success'];
-                            var prompt_html = "";
-
-                            prompt_html += "<div id='prompt' class='alert alert-success'>"
-                            prompt_html += "<strong>" + success.replace(/"/g, "") + "</strong>";
-                            prompt_html += "</div>"
-
-                            $('#prompt').fadeOut(250, function() {
-                                $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");;
-                            });
-                            $('#delete-modal').modal('hide');
-                        }
-                    }).done(function() {
-                    loadBillofMaterials();
-                });
-            });
-
-            $("#edit_bill_of_material").submit(function(event) {
-                event.preventDefault();
-                var item = $('#edit-item').val();
-                var amount = $('#edit-amount').val();
-                var quantity = $('#edit-quantity').val();
-                var unit = $('#edit-unit').val();
-                var description = $('#edit-description').val();
-                $.post('/thesis/api.php', {
-                        "api_command": "edit_bill_of_material",
+                        "api_command": "update_transaction",
                         "id": $('#to-edit').val(),
-                        "project_id": projectId,
-                        "item": item,
-                        "quantity": quantity,
+                        "type": category,
                         "amount": amount,
-                        "unit": unit,
                         "description": description,
-                        "total": ""
+                        "date_added": date_added,
+                        "transaction_date": transaction_date
                     },
                     function(data, status) {
-
                         if (typeof JSON.parse(data)['errors'] !== "undefined") {
 
                             var error = JSON.parse(data)['errors'];
@@ -521,27 +382,24 @@
                         }
 
                     }).done(function() {
-                    loadBillofMaterials();
+                    loadCashflow();
                 });
             });
 
-            $("#add_bill").submit(function(event) {
+            $("#add_cashflow").submit(function(event) {
                 event.preventDefault();
-                var item = $('#item').val();
+                var category = $('#add-selectform').val();
                 var amount = $('#amount').val();
-                var quantity = $('#quantity').val();
-                var unit = $('#unit').val();
+                var transaction_date = $('#transaction_date').val() + " 00:00:00";
                 var description = $('#description').val();
-
                 $.post('/thesis/api.php', {
-                        "api_command": "add_bill_of_material",
-                        "project_id": projectId,
-                        "item": item,
-                        "quantity": quantity,
+                        "api_command": "transact_cash",
+                        "type": category,
                         "amount": amount,
-                        "unit": unit,
                         "description": description,
-                        "total": ""
+                        "date_added": "",
+                        "transaction_date": transaction_date,
+                        "project_id": projectId
                     },
                     function(data, status) {
 
@@ -577,13 +435,13 @@
                                 $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");;
                             });
                             $('#add-modal').modal('hide');
-                            $('#item').val("");
                             $('#amount').val("");
-                            $('#quantity').val("");
+                            $('#date_added').val("");
+                            $('#transaction_date').val("");
                         }
 
                     }).done(function() {
-                    loadBillofMaterials();
+                    loadCashflow();
                 });
 
             });
@@ -594,14 +452,16 @@
                     var id = $(this).attr("data-id");
                     $('#to-edit').val(id);
                     $.post('/thesis/api.php', {
-                            "api_command": "get_specific_bill_of_materials",
+                            "api_command": "get_specific_cashflow",
                             "id": id
                         },
                         function(data, status) {
-                            var Bill = JSON.parse(JSON.parse(data)['success'])
-                            $("#edit-item").val(Bill.item);
-                            $('#edit-amount').val(Bill.amount);
-                            $('#edit-quantity').val(Bill.quantity);
+                            var Cashflow = JSON.parse(JSON.parse(data)['success'])
+                            $("#edit_selectform").val(Cashflow.type);
+                            $("#edit_amount").val(Cashflow.amount);
+                            $('#edit_description').val(Cashflow.description);
+                            $('#edit_date_added').val(Cashflow.date_added);
+                            $('#edit_transaction_date').val(Cashflow.transaction_date);
                         });
                 });
             }
@@ -615,27 +475,34 @@
                 });
             }
 
-            function bindPay() {
-                $(".pay-btn").unbind();
-                $(".pay-btn").click(function(event) {
-                    var id = $(this).attr("data-id");
-                    var value = $(this).attr("data-value");
-                    var description = $(this).attr("data-item");
-                    $('#to-pay').val(id);
-                    $('#to-pay-value').val(value);
-                    $('#to-pay-item').val(description);
+            function bindAdd() {
+                $(".add-btn").unbind();
+                $(".add-btn").click(function(event) {
+
                 });
             }
 
-            function bindAdd() {
-                $(".add-btn").unbind();
-                $(".add-btn").click(function(event) {});
+            function getBalance() {
+                $.post('/thesis/api.php', {
+                        "api_command": "get_project_sum_cashflow",
+                        "project_id": projectId
+                    },
+
+                    function(data, status) {
+
+                        var Balance = JSON.parse(JSON.parse(data)['success']);
+                        var balance_html = "";
+
+                        balance_html += "<strong><p>Remaining Balance: " + Balance.balance + "</p></strong>";
+
+                        $('#balance').html(balance_html);
+
+                    });
             }
 
-
-            function loadBillofMaterials() {
+            function loadCashflow() {
                 $.post('/thesis/api.php', {
-                        "api_command": "get_project_bill_of_materials",
+                        "api_command": "get_project_cashflow",
                         "project_id": projectId
                     },
 
@@ -660,55 +527,35 @@
 
                         } else {
 
-                            var Bill = JSON.parse(JSON.parse(data)['success']);
-                            var bill_of_materials_html = "";
-                            var total_html = "";
+                            var Cashflow = JSON.parse(JSON.parse(data)['success']);
+                            var cashflow_html = "";
 
-                            var total = 0;
-
-                            for (var i in Bill) {
-                                total += parseInt(Bill[i].total);
-
-                                bill_of_materials_html += "<tr>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].item + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].description + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].date_in + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].quantity + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].unit + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].amount + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].total + "</td>";
-                                bill_of_materials_html += "<td class=\"text-center\">";
-                                bill_of_materials_html += "<button type=\"button\" class=\"btn btn-success edit-btn\" data-toggle=\"modal\" data-target=\"#edit-modal\" data-id=" + Bill[i].id + ">Edit</button>";
-                                bill_of_materials_html += " <button type=\"button\" class=\"btn btn-danger delete-btn\" data-toggle=\"modal\" data-target=\"#delete-modal\" data-id=" + Bill[i].id + ">Delete</button>";
-
-                                if (Bill[i].paid == "0") {
-
-                                    bill_of_materials_html += " <button type=\"button\" class=\"btn btn-default pay-btn\" data-toggle=\"modal\" data-target=\"#pay-modal\" data-value=" + Bill[i].total + " data-id=" + Bill[i].id + " data-item=" + Bill[i].item + ">Pay</button>";
-
-                                }
-
-                                bill_of_materials_html += "</td>";
-                                bill_of_materials_html += "</tr>";
+                            for (var i in Cashflow) {
+                                cashflow_html += "<tr>";
+                                cashflow_html += "<td class=\"text-center\"><p style=\"text-transform: uppercase;\">" + Cashflow[i].type + "</p></td>";
+                                cashflow_html += "<td class=\"text-center\">" + Cashflow[i].amount + "</td>";
+                                cashflow_html += "<td class=\"text-center\">" + Cashflow[i].description + "</td>";
+                                cashflow_html += "<td class=\"text-center\">" + Cashflow[i].date_added + "</td>";
+                                cashflow_html += "<td class=\"text-center\">" + Cashflow[i].transaction_date + "</td>";
+                                // cashflow_html += "<td class=\"text-center\">";
+                                // cashflow_html += "<button type=\"button\" class=\"btn btn-success edit-btn\" data-toggle=\"modal\" data-target=\"#edit-modal\" data-id=" + Cashflow[i].id + ">Edit</button>";
+                                // cashflow_html += " <button type=\"button\" class=\"btn btn-danger delete-btn\" data-toggle=\"modal\" data-target=\"#delete-modal\" data-id=" + Cashflow[i].id + ">Delete</button>";
+                                // cashflow_html += "</td>";
+                                cashflow_html += "</tr>";
                             }
-                            total_html = "<h4> Total Cost: PHP " + total + "</h4>";
-
-                            $('#billofmaterials-table-contents').html(bill_of_materials_html);
-
-                            $('#total').html(total_html);
+                            $('#cashflow-table-contents').html(cashflow_html);
                         }
 
                     }).done(function() {
                     bindDelete();
                     bindEdit();
                     bindAdd();
-                    bindPay();
-
+                    getBalance();
                 });
             }
-            loadBillofMaterials();
+            loadCashflow();
         });
     </script>
-
 </body>
 
 </html>
