@@ -43,6 +43,7 @@
                     <li id="toActivity"></li>
                     <li class="active" id="toMonitor"></li>
                     <li  id="toBill"></li>
+                    <li id="toGallery"></li>
                     <li id="logout"></li>
                 </ul>
 
@@ -400,6 +401,11 @@
             monitor_html += "<a href=get_monitor.html?project_id=" + projectId + "&project_name=" + projectName + ">Scheduling</a>";
             chart_html += "<a href=gnatt_chart1.html?project_id=" + projectId + "&project_name=" + projectName + "><button type='button' class='btn btn-success add-btn' data-toggle='modal' >Equipment and Manpower</button></a>";
             bill_html += "<a href=get_bill_of_materials.html?project_id=" + projectId + "&project_name=" + projectName + ">Bill of Materials</a>";
+
+
+                        var gallery_html = "";
+            gallery_html += "<a href=get_gallery.html?project_id=" + projectId + "&project_name=" + projectName + ">Image Upload</a>";
+            $('#toGallery').html(gallery_html);
 
             $('#toCashflow').html(cashflow_html);
             $('#toActivity').html(activity_html);

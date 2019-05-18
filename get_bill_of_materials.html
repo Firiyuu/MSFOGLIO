@@ -46,6 +46,7 @@
                     <li id="toActivity"></li>
                     <li id="toMonitor"></li>
                     <li class="active" id="toBill"></li>
+                             <li id="toGallery"></li>
                       <li id="logout"></li>
                 </ul>
             </div>
@@ -126,7 +127,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="quantity">Quantity</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="quantity">
+                                <input type="number" class="form-control" id="quantity" min="0.00" step="0.01" />
                             </div>
                         </div>
 
@@ -158,7 +159,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="amount">Amount</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="amount">
+                                <input type="number" class="form-control" id="amount" min="0.00" step="0.01" />
                             </div>
                         </div>
                         <!-- <div class="form-group">
@@ -214,7 +215,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="edit-quantity">Quantity</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-quantity">
+                                <input type="number" class="form-control" id="edit-quantity" min="0.00" step="0.01" />
                             </div>
                         </div>
 
@@ -244,7 +245,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="edit-amount">Amount</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-amount">
+                                <input type="number" class="form-control" id="edit-amount" min="0.00" step="0.01" />
                             </div>
                         </div>
                         <!-- <div class="form-group">
@@ -360,6 +361,7 @@
             var bill_html = "";
             var reports_html = "";
             var monitor_html = "";
+            
             var equipment_resources_html = "";
 
 
@@ -369,6 +371,9 @@
             monitor_html += "<a href=get_monitor.html?project_id=" + projectId + "&project_name=" + projectName + ">Scheduling</a>";
             equipment_resources_html += "";
             bill_html += "<a href=get_bill_of_materials.html?project_id=" + projectId + "&project_name=" + projectName + ">Bill of Materials</a>";
+            var gallery_html = "";
+            gallery_html += "<a href=get_gallery.html?project_id=" + projectId + "&project_name=" + projectName + ">Image Upload</a>";
+            $('#toGallery').html(gallery_html);
 
             $('#toCashflow').html(cashflow_html);
             $('#toActivity').html(activity_html);
@@ -667,11 +672,11 @@ var logout_html = "";
                             var Bill = JSON.parse(JSON.parse(data)['success']);
                             var bill_of_materials_html = "";
                             var total_html = "";
-
+                            var currency = "";
                             var total = 0;
 
                             for (var i in Bill) {
-                                total += parseInt(Bill[i].total);
+                                total += parseFloat(Bill[i].total);
 
                                 bill_of_materials_html += "<tr>";
                                 bill_of_materials_html += "<td class=\"text-center\">" + Bill[i].item + "</td>";
@@ -694,7 +699,10 @@ var logout_html = "";
                                 bill_of_materials_html += "</td>";
                                 bill_of_materials_html += "</tr>";
                             }
-                            total_html = "<h4> Total Cost: PHP <b>" + total + "</b></h4>";
+                         
+                            currency="₱ " + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                            total_html = "<h4> Total Cost: <b>" + currency + "</b></h4>";
 
                             $('#billofmaterials-table-contents').html(bill_of_materials_html);
 

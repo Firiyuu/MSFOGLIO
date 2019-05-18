@@ -82,7 +82,7 @@
                             <tr>
                                 <th class="text-center">Equipment</th>
                                 <th class="text-center">Date Borrowed</th>
-                                <th class="text-center">Duration(hrs)</th>
+                                <th class="text-center">Days</th>
                                 <th class="text-center">Quantity</th>
                                 <th class="text-center">Rate</th>
                                 <th class="text-center">Total</th>
@@ -131,7 +131,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="duration">Duration(hrs)</label>
+                            <label class="control-label col-md-2" for="duration">Days</label>
                             <div class="col-md-10">
                                 <input type="number" class="form-control" id="duration">
                             </div>
@@ -140,7 +140,7 @@
                       <div class="form-group">
                             <label class="control-label col-md-2" for="rate">Rate</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="rate">
+                                <input type="number" class="form-control" id="rate" min="0.00" step="0.01" />
                             </div>
                         </div>
                      
@@ -192,7 +192,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="edit-rate">Rate</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-rate">
+                                <input type="number" class="form-control" id="edit-rate" min="0.00" step="0.01"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -362,12 +362,12 @@
                             var prompt_html = "";
 
                             for (var i in error) {
-                                prompt_html += "<div id='prompt' class='alert alert-danger'>"
+                                prompt_html += "<div id='prompt' class='alert alert-danger'>";
                                 prompt_html += "<strong>" + error[i] + "</strong>";
-                                prompt_html += "</div>"
+                                prompt_html += "</div>";
 
                                 $('#prompt').fadeOut(250, function() {
-                                    $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");;
+                                    $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");
                                 });
                                 $('#edit-modal').modal('hide');
                             }
@@ -375,14 +375,14 @@
                         } else {
 
                             var success = JSON.parse(data)['success'];
-                            var prompt_html = "";
+                            prompt_html = "";
 
-                            prompt_html += "<div id='prompt' class='alert alert-success'>"
+                            prompt_html += "<div id='prompt' class='alert alert-success'>";
                             prompt_html += "<strong>" + success.replace(/"/g, "") + "</strong>";
-                            prompt_html += "</div>"
+                            prompt_html += "</div>";
 
                             $('#prompt').fadeOut(250, function() {
-                                $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");;
+                                $('#prompt').empty().html(prompt_html).fadeIn().delay(1500).fadeOut("slow");
                             });
                             $('#edit-modal').modal('hide');
                         }
@@ -618,11 +618,11 @@
 
                             var logout_html = "";
                         
-
+ var currency = "";
                             var total = 0;
 
                             for (var i in Resources) {
-                                total += parseInt(Resources[i].rate*Resources[i].quantity*Resources[i].duration);
+                                total += parseFloat(Resources[i].rate*Resources[i].quantity*Resources[i].duration);
                                 resources_html += "<tr>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].name + "</td>";
 
@@ -643,7 +643,9 @@
                             }
                             $('#resoureces-table-contents').html(resources_html);
 
-                         total_html = "<h4> Total Cost: PHP <b>" + total + "</b></h4>";
+                            currency="₱ " + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                            total_html = "<h4> Total Cost: <b>" + currency + "</b></h4>";
                             $('#total').html(total_html);
 
     logout_html +=   "<a href='/thesis'>Logout</a>"

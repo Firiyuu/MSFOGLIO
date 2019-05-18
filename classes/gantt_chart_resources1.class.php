@@ -26,13 +26,13 @@
 
 			$quantity = intval($quantity);
 			$duration = intval($duration);
-			$rate = intval($rate);
+			$rate = doubleval($rate);
             $total = $quantity * $duration * $rate;
 			$errors = [];
 
 			if (in_array(0, $result1)) {
 				array_push($errors, 'gantt_chart_id does not exist on gantt_chart table');
-			} 
+			}
 
 			// if (in_array(0, $result2)) {
 			// 	array_push($errors, 'resource_id does not exist on resources table');
@@ -46,7 +46,7 @@
 				array_push($errors, 'duration is not set as integer');
 			}
 
-			if (!is_int($rate)) {
+			if (!is_float($rate)) {
 				array_push($errors, 'rate is not set as integer');
 			}
 
@@ -198,10 +198,11 @@
 			$sql2 = "SELECT COUNT(id) FROM resources WHERE id='$resource_id';";
 			$result2 = $this->getSingleSQLStatement($sql2);
 
-			$total = $quantity * $duration * $rate;
 			$quantity = intval($quantity);
 			$duration = intval($duration);
-			$rate = intval($rate);
+			$rate = doubleval($rate);
+
+            $total = $quantity * $duration * $rate;
 
 			if (in_array(0, $result1)) {
 				array_push($errors, 'gantt_chart_id does not exist on gantt_chart table');
@@ -219,7 +220,7 @@
 				array_push($errors, 'duration is not set as integer');
 			}
 
-			if (!is_int($rate)) {
+			if (!is_double($rate)) {
 				array_push($errors, 'rate is not set as integer');
 			}
 
@@ -249,7 +250,7 @@
 				// We are now able to access this method because we extended the "Database" class.
 				$this->executeSQL($sql);
 
-				return 'Resource successfully edited.';	
+				return 'Resource successfully edited.';
 			}
 		}
 

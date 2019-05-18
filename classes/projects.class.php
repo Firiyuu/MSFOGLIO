@@ -186,7 +186,7 @@
 				array_push($errors, 'The `password` field must not be empty.');
 			}
 			$mdPass = md5($password);
-			$sql = "SELECT COUNT(id) as total FROM user WHERE username='$username'";/* AND password='$mdPass'*/
+			$sql = "SELECT COUNT(id) as total FROM user WHERE username='$username' AND password='$mdPass'";
 			$result = $this->getSQLResult($sql);
 			// echo '<pre>';
 			// print_r($result);exit;
@@ -198,6 +198,38 @@
 			} else {
 				return 'Login successful.';	
 			}
-		}		
+		}
+
+        function do_register($username, $name, $password, $confirm_password, $email, $mobile, $age)
+        {
+            $errors = [];
+
+            if ($username == '') {
+                array_push($errors, 'The `username` field must not be empty.');
+            }
+
+            if ($password == '') {
+                array_push($errors, 'The `password` field must not be empty.');
+            }
+
+            if (strcmp($password, $confirm_password) <> 0) {
+                array_push($errors, 'The `confirm_password` field must be equal `password`.');
+            }
+            $mdPass = md5($password);
+            $sql = "SELECT COUNT(id) as total FROM user WHERE username='$username'";/* AND password='$mdPass'*/
+            $result = $this->getSQLResult($sql);
+            // echo '<pre>';
+            // print_r($result);exit;
+            if($result[0]['total'] > 0){
+                array_push($errors, 'You already joined.');
+            }
+            if (!empty($errors)) {
+                return ['errors' => $errors];
+            } else {
+                $sql3 = "INSERT INTO user (username, name, password, email, age, mobileNum) VALUES ('$username', '$name', '$mdPass', '$email', '$age', '$mobile');";
+                $this->executeSQL($sql3);
+                return 'Register successful.';
+            }
+        }
 	}
 ?>

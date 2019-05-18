@@ -92,14 +92,18 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="get_projects.html" style="color: #ffffff">Back</a></li>
+                    <li id="goBack"><a href="get_projects.html" style="color: #ffffff">Back</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <div class="container-fluid">
-        <div class="row"></div><br/>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div id="project_header" class="col-md-6 page-header"></div>
+            <div class="col-md-3"></div>
+        </div><br/>
         <div class="row">
             <div class="col-md-2">
                 <button type="submit" class="btn btn-success add-btn" data-toggle="modal" data-target="#add-modal">Upload Image</button>
@@ -161,10 +165,32 @@
     <script src="js/export-data.js"></script>
 
     <script>
-        var projectId = 0;
+        function getUrlVars() {
+            var vars = [],
+                hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+
+        }
+
+        var projectId = getUrlVars()['project_id'];
+        var projectName = getUrlVars()['project_name'];
+        var header = "";
+        var projectName2 = projectName.replace(/%20/g, " ");
+
+        header += "<h2>Project: <b>" + projectName2 + "</b></h2>";
+
+        $('#project_header').html(header);
 
         $(document).ready(function () {
-            showGraph();
+            showGallery();
+            var back_html = "<a href=get_activity.html?project_id=" + projectId + "&project_name=" + projectName + ">Back</a>";
+            $('#goBack').html(back_html);
             $('#projects_id').val(projectId);
         });
 
@@ -187,7 +213,7 @@
                             image_list += "<div class='row'></div>";
                             loop = 0;
                         }
-                        image_list += "<br><div class='col-md-2'><img style='width: 300px; height: 300px;' src='" + imagedata[i].imgPath + "'><br><br><span>" + imagedata[i].content + "</span></div><div class='col-md-1'></div><br>";
+                        image_list += "<div class='col-md-2'><img style='width: 300px; height: 300px;' src='" + imagedata[i].imgPath + "'><span>" + imagedata[i].content + "</span></div><div class='col-md-1'></div>";
                         loop += 1;
                     }
 
@@ -201,7 +227,7 @@
         }));
 
 
-        function showGraph()
+        function showGallery()
         {
             {
                 $.post('/thesis/api.php', {

@@ -29,10 +29,11 @@ if (in_array($extUpload, $extsAllowed) ) {
 
 $imgPath = "/thesis/".$name;
 $content = $_POST['content'];
-$sql3 = "INSERT INTO image (imgPath, content) VALUES ('$imgPath', '$content');";
+$projects_id = $_POST['projects_id'];
+$sql3 = "INSERT INTO image (projects_id, imgPath, content) VALUES ('$projects_id', '$imgPath', '$content');";
 $result = mysqli_query($conn,$sql3);
 
-$sqlQuery = "SELECT * FROM image";
+$sqlQuery = "SELECT * FROM image WHERE projects_id = '$projects_id'";
 $result = mysqli_query($conn,$sqlQuery);
 
 $data = array();

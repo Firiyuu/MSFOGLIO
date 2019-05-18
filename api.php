@@ -155,8 +155,12 @@
 
 	else if ($api_command === 'do_login') {
 		$result = $projects->do_login(getPOSTValue('username'), getPOSTValue('password'));
-	}		
-		// var_dump($result);
+	}
+
+    else if ($api_command === 'do_register') {
+        $result = $projects->do_register(getPOSTValue('username'), getPOSTValue('name'), getPOSTValue('password'), getPOSTValue('confirm_password'), getPOSTValue('email'), getPOSTValue('mobile'), getPOSTValue('age'));
+    }
+// var_dump($result);
 		// die;
 	// Check for errors.
 	if (isset($result['errors'])) {

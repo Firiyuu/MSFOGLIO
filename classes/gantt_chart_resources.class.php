@@ -26,7 +26,7 @@
 
 			$quantity = intval($quantity);
 			$duration = intval($duration);
-			$rate = floatval($rate);
+			$rate = doubleval($rate);
             $total = $quantity * $rate;
 
 			$errors = [];
@@ -47,7 +47,7 @@
 				array_push($errors, 'duration is not set as integer');
 			}
 
-			if (!is_float($rate)) {
+			if (!is_double($rate)) {
 				array_push($errors, 'rate is not set as float');
 			}
 
@@ -204,10 +204,11 @@
 			$sql2 = "SELECT COUNT(id) FROM resources WHERE id='$resource_id';";
 			$result2 = $this->getSingleSQLStatement($sql2);
 
-			$total = $quantity * $duration * $rate;
 			$quantity = intval($quantity);
 			$duration = intval($duration);
-			$rate = intval($rate);
+			$rate = doubleval($rate);
+
+            $total = $quantity * $duration * $rate;
 
 			if (in_array(0, $result1)) {
 				array_push($errors, 'gantt_chart_id does not exist on gantt_chart table');
@@ -225,7 +226,7 @@
 				array_push($errors, 'duration is not set as integer');
 			}
 
-			if (!is_int($rate)) {
+			if (!is_double($rate)) {
 				array_push($errors, 'rate is not set as integer');
 			}
 

@@ -81,6 +81,7 @@
                             <tr>
                                 <th class="text-center">Manpower</th>
                                 <th class="text-center">Quantity</th>
+                                <th class="text-center">Days</th>
                                 <th class="text-center">Rate</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">Action</th>
@@ -125,6 +126,14 @@
                             
                              
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="quantity">Days</label>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="duration">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-2" for="quantity">Quantity</label>
                             <div class="col-md-10">
@@ -135,7 +144,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="rate">Rate</label>
                             <div class="col-md-10">
-                                <input type="number"  class="form-control" id="rate" min="0.00" max="10000.00" step="0.01" />
+                                <input type="number"  class="form-control" id="rate" min="0.00" step="0.01" />
                             
                             </div>
                         </div>
@@ -177,7 +186,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-2" for="edit-duration">Duration</label>
+                            <label class="control-label col-md-2" for="edit-duration">Days</label>
                             <div class="col-md-10">
                                 <input type="number" class="form-control" id="edit-duration">
                             </div>
@@ -185,7 +194,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" for="edit-rate">Rate</label>
                             <div class="col-md-10">
-                                <input type="number" class="form-control" id="edit-rate">
+                                <input type="number" class="form-control" id="edit-rate" min="0.00" step="0.01" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -404,7 +413,7 @@
                             "gantt_chart_id": activityId,
                             "resource_id": resource_id,
                             "quantity": quantity,
-                            "duration": "",
+                            "duration": duration,
                             "rate": rate,
                             "project_id": projectId
                         },
@@ -610,15 +619,17 @@
                             var Resources = JSON.parse(JSON.parse(data)['success']);
                             var resources_html = "";
                             var total_html = "";
-
+                            var currency = "";
                             var total = 0;
 
+
                             for (var i in Resources) {
-                                total += parseInt(Resources[i].rate*Resources[i].quantity);
+                                total += parseFloat(Resources[i].rate*Resources[i].quantity*Resources[i].duration);
                                 resources_html += "<tr>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].name + "</td>";
                               
                                 resources_html += "<td class=\"text-center\">" + Resources[i].quantity + "</td>";
+                                 resources_html += "<td class=\"text-center\">" + Resources[i].duration + "</td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].rate + "</td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].rate*Resources[i].quantity  + "</td>";
                                 resources_html += "<td class=\"text-center\">";
@@ -627,7 +638,12 @@
                                 resources_html += "</td>";
                                 resources_html += "</tr>";
                             }
-                            total_html = "<h4> Total Cost: PHP <b>" + total + "</b></h4>";
+                            
+
+                            currency="₱ " + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                            total_html = "<h4> Total Cost: <b>" + currency + "</b></h4>";
+     
                             $('#total').html(total_html);
 
                             $('#resoureces-table-contents').html(resources_html);

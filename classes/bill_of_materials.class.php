@@ -95,9 +95,19 @@
 			$sql1 = "SELECT COUNT(id) FROM projects WHERE id='$project_id';";
 			$result1 = $this->getSingleSQLStatement($sql1);
 
+			$quantity = doubleval($quantity);
+			$amount = doubleval($amount);
 			$total = $quantity * $amount;
 
 			$errors = [];
+
+            if (!is_double($quantity)) {
+                array_push($errors, 'quantity is not set as numberic');
+            }
+
+            if (!is_double($amount)) {
+                array_push($errors, 'quantity is not set as numberic');
+            }
 
 			if (in_array(0, $result1)) {
 				array_push($errors, 'project_id does not exist on projects table');
@@ -167,7 +177,17 @@
 		{
 			$errors = [];
 
+            $quantity = doubleval($quantity);
+            $amount = doubleval($amount);
 			$total = $quantity * $amount;
+
+            if (!is_double($quantity)) {
+                array_push($errors, 'quantity is not set as numberic');
+            }
+
+            if (!is_double($amount)) {
+                array_push($errors, 'quantity is not set as numberic');
+            }
 
 			if ($id == '') {
 				array_push($errors, 'The `id` field must not be empty.');
