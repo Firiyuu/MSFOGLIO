@@ -46,6 +46,7 @@
                     <li id="toActivity"></li>
                     <li id="toMonitor"></li>
                     <li class="active" id="toBill"></li>
+                      <li id="logout"></li>
                 </ul>
             </div>
         </div>
@@ -341,7 +342,7 @@
         var header = "";
         var projectName2 = projectName.replace(/%20/g, " ");
 
-        header += "<h2>" + projectName2 + "<small> Bill of Materials</small></h2>";
+        header += "<h2>Bill of Materials: <b>" + projectName2 + "</b></h2>";
 
         $('#project_header').html(header);
 
@@ -376,7 +377,10 @@
             $('#toReports').html(reports_html);
             $('#toMonitor').html(monitor_html);
             $('#toResources').html(equipment_resources_html);
-
+var logout_html = "";
+            logout_html +=   "<a href='/thesis'>Logout</a>"
+ $('#logout').html(logout_html);
+ 
             $("#delete").click(function(event) {
                 event.preventDefault();
                 $.post('/thesis/api.php', {
@@ -690,7 +694,7 @@
                                 bill_of_materials_html += "</td>";
                                 bill_of_materials_html += "</tr>";
                             }
-                            total_html = "<h4> Total Cost: PHP " + total + "</h4>";
+                            total_html = "<h4> Total Cost: PHP <b>" + total + "</b></h4>";
 
                             $('#billofmaterials-table-contents').html(bill_of_materials_html);
 

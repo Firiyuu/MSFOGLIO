@@ -42,7 +42,8 @@
                 <ul class="nav navbar-nav">
                     <li id="toActivity"></li>
                     <li class="active" id="toMonitor"></li>
-                           <li  id="toBill"></li>
+                    <li  id="toBill"></li>
+                    <li id="logout"></li>
                 </ul>
 
             </div>
@@ -375,7 +376,7 @@
         var header = "";
         var projectName2 = projectName.replace(/%20/g, " ");
 
-        header += "<h2>" + projectName2 + "<small> Gantt Chart</small></h2>";
+        header += "<h2>Gantt Chart: <b>" + projectName2 + "</b></h2>";
 
         $('#project_header').html(header);
 
@@ -408,6 +409,9 @@
             $('#toMonitor').html(monitor_html);
             $('#toChart').html(chart_html);
 
+var logout_html = "";
+            logout_html +=   "<a href='/thesis'>Logout</a>"
+ $('#logout').html(logout_html);
 
             //funcitons
             if (typeof projectId == "undefined") {

@@ -157,17 +157,17 @@
 			$sql1 = "SELECT COUNT(id) FROM gantt_chart WHERE id='$id';";
 			$result1 = $this->getSingleSQLStatement($sql1);
 
-			// $sql2 = "SELECT COUNT(id) FROM gantt_chart_resources WHERE gantt_chart_id='$id';";
-			// $result2 = $this->getSingleSQLStatement($sql2);
+			$sql2 = "SELECT COUNT(id) FROM gantt_chart_resources WHERE gantt_chart_id='$id';";
+			$result2 = $this->getSingleSQLStatement($sql2);
 
 			if (in_array(0, $result1)) {
 				array_push($errors, 'id does not exist on gantt_chart table');
 			
 			} 
 
-			// if (in_array(!0, $result2)) {
-			// 	array_push($errors, 'Cannot Delete: Activity has a Resource');
-			// }
+			if (in_array(!0, $result2)) {
+				array_push($errors, 'Cannot Delete: Activity has a Resource');
+			}
 
 			if ($id == '') {
 				array_push($errors, 'The `id` field must not be empty.');

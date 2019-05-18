@@ -41,8 +41,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                      <li class="active" id="toManpower"></li>
+                    <li class="active" id="toManpower"></li>
                     <li id="toEquipment"></li>
+                    <li id="toBack"></li>
+                    <li id="logout"></li>
                 </ul>
 <!--                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Log Out</a></li>
@@ -58,6 +60,7 @@
                     <li  id="toActivity"></li>
                     <li class="active" id="toManpower1"></li>
                     <li id="toEquipment1"></li>
+                   
 
                 </ul>
             </div>
@@ -72,14 +75,17 @@
                         <div id="prompt"></div>
                     </div>
                 </div>
-
+ <div id="total"></div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="text-center">Equipment</th>
-                                <th class="text-center">Quantity</th>
                                 <th class="text-center">Date Borrowed</th>
+                                <th class="text-center">Duration(hrs)</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Rate</th>
+                                <th class="text-center">Total</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -121,6 +127,20 @@
                             <label class="control-label col-md-2" for="quantity">Quantity</label>
                             <div class="col-md-10">
                                 <input type="number" class="form-control" id="quantity">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="duration">Duration(hrs)</label>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="duration">
+                            </div>
+                        </div>
+
+                      <div class="form-group">
+                            <label class="control-label col-md-2" for="rate">Rate</label>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="rate">
                             </div>
                         </div>
                      
@@ -240,7 +260,7 @@
         var activityName2 = activityName.replace(/%20/g, " ");
         var projectName2 = projectName.replace(/%20/g, " ");
 
-        header += "<h2>" + projectName2 + ": " + activityName2 + "</h2>";
+        header += "<h2>" + projectName2 + " > <b>" + activityName2 + "</b></h2>";
 
         $('#activity_header').html(header);
 
@@ -255,11 +275,12 @@
 
             var manpower_html = "";
             var equipment_html = "";
+            var back_html = "";
 
 
 
             activity_html += "<a href=get_activity.html?project_id=" + projectId + "&project_name=" + projectName + ">Back</span></a>";
-
+        back_html += "<a href=get_activity.html?project_id=" + projectId + "&project_name=" + projectName + ">Back</span></a>";
 
             manpower_html += "<a href=get_activity_resources.html?project_id=" + projectId + "&project_name=" + projectName + "&activity_name=" + activityName+ "&activity_id=" + activityId + " >Equipment</span></a>";
 
@@ -270,6 +291,7 @@
 
             $('#toManpower').html(manpower_html);
             $('#toEquipment').html(equipment_html);
+            $('#toBack').html(back_html);
 
 
 
@@ -592,13 +614,27 @@
                             var Resources = JSON.parse(JSON.parse(data)['success']);
                             var resources_html = "";
 
+                            var total_html = "";
+
+                            var logout_html = "";
+                        
+
+                            var total = 0;
+
                             for (var i in Resources) {
+                                total += parseInt(Resources[i].rate*Resources[i].quantity*Resources[i].duration);
                                 resources_html += "<tr>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].name + "</td>";
+
+                                resources_html += "<td class=\"text-center\">" + Resources[i].borrowed + "</td>";
                         
                                 resources_html += "<td class=\"text-center\">" + Resources[i].quantity + "</td>";
-                                resources_html += "<td class=\"text-center\">" + Resources[i].borrowed + "</td>";
-  
+
+                                
+
+                                 resources_html += "<td class=\"text-center\">" + Resources[i].duration + "</td>";
+                                  resources_html += "<td class=\"text-center\">" + Resources[i].rate + "</td>";
+                                  resources_html += "<td class=\"text-center\">" + Resources[i].total + "</td>";
                                 resources_html += "<td class=\"text-center\">";
                                 resources_html += "<button type=\"button\" class=\"btn btn-success edit-btn\" data-toggle=\"modal\" data-target=\"#edit-modal\" data-id=" + Resources[i].id + ">Edit</button>";
                                 resources_html += " <button type=\"button\" class=\"btn btn-danger delete-btn\" data-toggle=\"modal\" data-target=\"#delete-modal\" data-id=" + Resources[i].id + ">Delete</button>";
@@ -606,6 +642,13 @@
                                 resources_html += "</tr>";
                             }
                             $('#resoureces-table-contents').html(resources_html);
+
+                         total_html = "<h4> Total Cost: PHP <b>" + total + "</b></h4>";
+                            $('#total').html(total_html);
+
+    logout_html +=   "<a href='/thesis'>Logout</a>"
+                             $('#logout').html(logout_html);
+
                         }
 
                     }).done(function() {

@@ -67,7 +67,7 @@
 				$sql3 = "
 					INSERT INTO gantt_chart_resource1 (gantt_chart_id, resource_id, quantity, duration, rate, total, project_id) 
 					VALUES
-					  ('$gantt_chart_id', '$resource_id', '$quantity', 1, 1, 1, '$project_id');
+					  ('$gantt_chart_id', '$resource_id', '$quantity', '$duration', '$rate', '$total', '$project_id');
 				";
 
 				$this->executeSQL($sql3);

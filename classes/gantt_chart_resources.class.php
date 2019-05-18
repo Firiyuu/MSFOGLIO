@@ -26,8 +26,8 @@
 
 			$quantity = intval($quantity);
 			$duration = intval($duration);
-			$rate = intval($rate);
-            $total = $quantity * $duration * $rate;
+			$rate = floatval($rate);
+            $total = $quantity * $rate;
 
 			$errors = [];
 
@@ -47,17 +47,15 @@
 				array_push($errors, 'duration is not set as integer');
 			}
 
-			if (!is_int($rate)) {
-				array_push($errors, 'rate is not set as integer');
+			if (!is_float($rate)) {
+				array_push($errors, 'rate is not set as float');
 			}
 
 			if ($quantity == '') {
 				array_push($errors, 'The `quantity` field must not be empty.');
 			}
 
-			if ($duration == '') {
-				array_push($errors, 'The `duration` field must not be empty.');
-			}
+
 
 			if ($rate == '') {
 				array_push($errors, 'The `rate` field must not be empty.');
