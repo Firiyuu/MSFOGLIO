@@ -13,7 +13,7 @@
 			//Get Heroku ClearDB connection information
 
 			// $this->conn =  mysqli_connect($host, $user, 'password', $db);
-			$this->conn =  mysqli_connect('us-cdbr-iron-east-02.cleardb.net', 'b0dd89939da75c', '7244a2aa', 'heroku_cea08a4e9f7c1ed');
+			$this->conn =  mysqli_connect('sql12.freemysqlhosting.net', 'sql12292387', 'hHX4QpWBt6', 'sql12292387', '3306');
 			//$this->conn =  mysqli_connect('127.0.0.1','root','password','thesis');
 
 			if (!isset($this->conn)) {
