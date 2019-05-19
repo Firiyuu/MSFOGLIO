@@ -80,8 +80,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Manpower</th>
-                                <th class="text-center">Quantity</th>
                                 <th class="text-center">Days</th>
+                                <th class="text-center">Quantity</th>
                                 <th class="text-center">Rate</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">Action</th>
@@ -627,11 +627,11 @@
                                 total += parseFloat(Resources[i].rate*Resources[i].quantity*Resources[i].duration);
                                 resources_html += "<tr>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].name + "</td>";
-                              
+                               resources_html += "<td class=\"text-center\">" + Resources[i].duration + "</td>";
                                 resources_html += "<td class=\"text-center\">" + Resources[i].quantity + "</td>";
-                                 resources_html += "<td class=\"text-center\">" + Resources[i].duration + "</td>";
+                                
                                 resources_html += "<td class=\"text-center\">" + Resources[i].rate + "</td>";
-                                resources_html += "<td class=\"text-center\">" + Resources[i].rate*Resources[i].quantity  + "</td>";
+         resources_html += "<td class=\"text-center\">" + Resources[i].rate*Resources[i].quantity*Resources[i].quantity  + "</td>";
                                 resources_html += "<td class=\"text-center\">";
                                 resources_html += "<button type=\"button\" class=\"btn btn-success edit-btn\" data-toggle=\"modal\" data-target=\"#edit-modal\" data-id=" + Resources[i].id + ">Edit</button>";
                                 resources_html += " <button type=\"button\" class=\"btn btn-danger delete-btn\" data-toggle=\"modal\" data-target=\"#delete-modal\" data-id=" + Resources[i].id + ">Delete</button>";
